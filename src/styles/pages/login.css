@@ -1,0 +1,40 @@
+.s-main{
+    margin: 0 !important;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: conic-gradient(from 180deg at 36% 0%, #0fb219, rgba(200, 246, 196, 1), rgba(255, 255, 255, 1))
+}
+.s-container{
+    width: 80%;
+    height: 540px;
+    padding: 6rem 0;
+    background: conic-gradient(from 180deg at 32.6% 0%, #ffffff3d , rgba(200, 246, 196, 1), rgba(255, 255, 255, 1));
+    -webkit-box-shadow: -5px 14px 32px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -5px 14px 32px 0px rgba(0,0,0,0.75);
+    box-shadow: -5px 14px 32px 0px rgba(0,0,0,0.75);
+    border-radius: 4px;
+    backdrop-filter: blur(116px) saturate(90%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+   
+
+
+}
+.s-content{
+  
+   
+    text-align: center;
+
+}
+.s-content img{
+    width: 80px;
+    height: 80px;
+}
+.s-content p{
+    padding: 0 2rem;
+    font-size: 16px;
+    
+    color: rgba(48, 48, 48, 0.537);
+}

@@ -15,7 +15,15 @@
 .f-c{
     flex-direction: column;
 }
-
+.f-1{
+    flex:1;
+}
+.f-2{
+    flex:2;
+}
 .m-t-10{
     margin-top: 20px;
+}
+.f-sm{
+    font-size: 12px;
 }
