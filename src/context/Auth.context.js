@@ -11,10 +11,10 @@ export function AuthContextProvider({ children }) {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     if (token) {
-      axios.defaults.headers.common.Authorization = token;
+      axios.defaults.headers.common['Authorization'] = token;
 
       axios.get('auth/whoami').then((res) => {
         setUser(res.data.data);
@@ -23,29 +23,24 @@ export function AuthContextProvider({ children }) {
   }, [token]);
 
   useLayoutEffect(() => {
-    try {
-      const token = localStorage.getItem('token');
-      if (token) {
-        setToken(token);
-        axios.defaults.headers.common.Authorization = token;
-        axios.get('auth/whoami').then((res) => {
-          setUser(res.data.data);
-        });
-      }
-    } catch (e) {
-      console.log('Who am i');
-      console.log(e);
+    const token = localStorage.getItem('token');
+    if (token) {
+      setToken(token);
     }
   }, []);
 
   const signIn = async (email, password) => {
     try {
+      console.log(email, password);
       const { data } = await axios.post('auth/sign_in', {
         email,
         password,
       });
 
+      console.log(data.data);
+
       localStorage.setItem('token', data.data.token);
+      setToken(data.data.token);
     } catch (e) {
       console.log(e);
     }
@@ -58,10 +53,8 @@ export function AuthContextProvider({ children }) {
         phone: `+91${params.phone}`,
       });
 
-      console.log(data.token);
-      localStorage.setItem('token', data.token);
-
-      setToken(data.token);
+      localStorage.setItem('token', data.data.token);
+      setToken(data.data.token);
     } catch (e) {
       console.log(e);
     }

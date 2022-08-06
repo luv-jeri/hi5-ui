@@ -14,6 +14,10 @@ const setter = (value) => {
   socket = value;
 };
 
+export const getter = (value) => {
+  return socket;
+};
+
 export function SocketProvider({ children }) {
   const { token } = useAuth();
 

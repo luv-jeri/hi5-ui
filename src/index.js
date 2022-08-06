@@ -7,6 +7,7 @@ import { AuthContextProvider } from './context/Auth.context';
 import { SocketProvider } from './context/Socket.context';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000/api/v1/';
@@ -23,9 +24,11 @@ root.render(
           withGlobalStyles
           withNormalizeCSS
         >
-          <Router>
-            <App />
-          </Router>
+          <NotificationsProvider>
+            <Router>
+              <App />
+            </Router>
+          </NotificationsProvider>
         </MantineProvider>
       </SocketProvider>
     </AuthContextProvider>
