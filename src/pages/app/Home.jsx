@@ -1,6 +1,11 @@
 import useAuth from '../../context/Auth.context';
 import { Button } from '@mantine/core';
 import useSocket from '../../context/Socket.context';
+import './Home.css';
+import ChatList from "../customComponents/ChatListComponents/ChatList.jsx";
+import Message from "../customComponents/MessageComponent/Message.jsx";
+import Profile from "../customComponents/ProfileComponent/Profile.jsx";
+
 export default function Home() {
   
   const { logout, user } = useAuth();
@@ -11,16 +16,10 @@ export default function Home() {
   console.log(user);
 
   return (
-    <div>
-      <h1>Hello {user?.name}</h1>
-      <Button onClick={logout}>Logout</Button>
-      <Button
-        onClick={() => {
-          socket.emit('test', 'Hello from the client');
-        }}
-      >
-        EMIT HELLO
-      </Button>
+    <div className='Main-Container'>
+      <ChatList />
+      <Message />
+      <Profile />
     </div>
   );
 }

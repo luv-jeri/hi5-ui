@@ -1,0 +1,89 @@
+.List-Container {
+    height: 70px;
+    width: 95%;
+    /* background-color: brown; */
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 5px;
+    margin-left: 15px;
+  }
+  
+  .List-Container-Logo {
+    height: 60px;
+    width: 60px;
+    background-color: rgb(101, 191, 37);
+    display: flex;
+    border-radius: 50%;
+    margin-top: 5px;
+    background-image: url('../../../../jognh2sample.jfif');
+    background-size: cover;
+  }
+  
+  .List-Container-Right {
+    height: 70px;
+    width: 80%;
+    /* background-color: rgb(101, 191, 37); */
+    margin-top: 5px;
+    display: flex;
+  }
+  
+  .Right-Info {
+    height: 100%;
+    width: 60%;
+    /* background-color: rgb(164, 7, 172); */
+  }
+  
+  .List-Container-Right-Name {
+    height: 40%;
+    width: 90%;
+    /* background-color: green; */
+    margin-left: 2px;
+    margin-top: 5px;
+    font-weight: bold;
+    color: rgb(53, 53, 53);
+  
+  }
+  
+  .List-Container-Right-LMsg {
+    height: 40%;
+    width: 120%;
+    /* background-color: rgb(218, 20, 20); */
+    margin-left: 2px;
+    overflow: hidden;
+    font-size: 13px;
+    color: rgb(124, 119, 119);
+  
+  }
+  .Right-LastSeen {
+    height: auto;
+    width: 40%;
+    /* background-color: rgb(40, 219, 8); */
+    margin-top: 5px;
+    font-size: 13px;
+  
+  }
+  .LastSeen-Time {
+    height: auto;
+    width: 70%;
+    /* background-color: aliceblue; */
+    color: rgb(124, 119, 119);
+  
+  }
+  
+  .LastSeen-Counter {
+    height: 25px;
+    min-width: 26px;
+    max-width: auto;
+    border-radius: 25px;
+    background-color:green;
+    text-align: center;
+    padding-top: 2px;
+    font-weight: bold;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: none;
+  }
+  .Right-LastSeen {
+    display: flex;
+  }
+  

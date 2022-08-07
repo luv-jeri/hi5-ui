@@ -6,7 +6,9 @@ import useAuth from './context/Auth.context';
 function App() {
   const { token } = useAuth();
 
-  return <>{token ? <Application /> : <Auth />}</>;
+  // return <>{token ? <Application /> : <Auth />}</>;
+  
+  return <><Application /></>;
 }
 
 export default App;
