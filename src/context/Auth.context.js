@@ -19,11 +19,14 @@ export function AuthContextProvider({ children }) {
       axios.get('auth/whoami').then((res) => {
         setUser(res.data.data);
       });
+
+      
     }
   }, [token]);
 
   useLayoutEffect(() => {
     const token = localStorage.getItem('token');
+    setLoading(false);
     if (token) {
       setToken(token);
     }
@@ -74,7 +77,7 @@ export function AuthContextProvider({ children }) {
     user,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{!loading ? children :  <h1>Loader</h1>}</AuthContext.Provider>;
 }
 
 export default useAuth;

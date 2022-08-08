@@ -4,7 +4,7 @@ import './styles/index.css';
 import App from './App';
 
 import { AuthContextProvider } from './context/Auth.context';
-import { SocketProvider } from './context/Socket.context';
+
 import { BrowserRouter as Router } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
@@ -18,19 +18,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <SocketProvider>
-        <MantineProvider
-          theme={{ colorScheme: 'dark' }}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          <NotificationsProvider>
-            <Router>
-              <App />
-            </Router>
-          </NotificationsProvider>
-        </MantineProvider>
-      </SocketProvider>
+      <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
+        <NotificationsProvider>
+          <Router>
+            <App />
+          </Router>
+        </NotificationsProvider>
+      </MantineProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );

@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext, useEffect, useMemo, useCallback } from 'react';
 import { io } from 'socket.io-client';
 import useAuth from './Auth.context';
+import { Loader } from '@mantine/core';
 
 const SocketContext = createContext();
 
@@ -21,15 +22,23 @@ export const getter = (value) => {
 export function SocketProvider({ children }) {
   const { token } = useAuth();
 
-  const socket = io('http://localhost:8000', {
-    auth: {
-      token: token,
-    },
-  });
+  const socket = useMemo(() => {
+    return io('http://localhost:8000', {
+      auth: {
+        token: token,
+      },
+    });
+  }, [token]);
 
   useEffect(() => {
     setter(socket);
   }, [token, socket]);
+
+  useMemo(() => {
+    socket.on('connect', () => {
+      console.log('connected');
+    });
+  }, [socket]);
 
   // ! ERROR handling
   socket.on('error', (err) => {
@@ -42,7 +51,7 @@ export function SocketProvider({ children }) {
         socket,
       }}
     >
-      {children}
+      {socket ? children : <h1>Loader</h1>}
     </SocketContext.Provider>
   );
 }
