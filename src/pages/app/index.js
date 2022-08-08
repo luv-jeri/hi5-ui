@@ -14,6 +14,7 @@ import { useRef } from 'react';
 
 export default function Index() {
   const addFriendRef = useRef();
+
   return (
     <div
       style={{
@@ -22,6 +23,7 @@ export default function Index() {
       }}
     >
       <AddFriend ref={addFriendRef}></AddFriend>
+
       <Box
         sx={(theme) => ({
           backgroundColor:
@@ -96,12 +98,15 @@ export default function Index() {
           </Menu.Dropdown>
         </Menu>
       </Box>
-      
-      
+      <Box>Side bar</Box>
+      <Box>Chatting</Box>
+      <Box>Details</Box>
     </div>
   );
 }
 
-{/* <Routes>
+{
+  /* <Routes>
   <Route path='/' element={<Home />} />
-</Routes>; */}
+</Routes>; */
+}

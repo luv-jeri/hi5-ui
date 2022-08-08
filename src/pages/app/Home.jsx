@@ -37,31 +37,47 @@ export default function Home() {
 
   const upload = useCallback(() => {
     console.log(file.current.files[0]);
-    const formData = new FormData();
-    formData.append('file', file.current.files[0]);
-    formData.append('name', file.current.files[0].name);
-    formData.append('user', user.id);
-    axios
-      .post('/upload', formData, {
-        onUploadProgress: (progressEvent) => {
-          const { loaded, total } = progressEvent;
-          const percent = Math.floor((loaded / total) * 100);
-          console(percent);
-        },
-      })
-      .then(() => {
-        setPercent(0);
-        setMsg('');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    const file_ = new FileReader();
+
+    file_.onload = (e) => {
+      console.log('uploading', e.target.result);
+
+      const CHUNK_SIZE = 8000;
+      const chunkCount = e.target.result.byteLength / CHUNK_SIZE;
+
+      for (let chunkId = 0; chunkId < chunkCount + 1; chunkId++) {
+        const chunk = e.target.result.slice(
+          chunkId * CHUNK_SIZE,
+          chunkId * CHUNK_SIZE + CHUNK_SIZE
+        );
+
+        socket.emit(
+          'file',
+          {
+            chunk,
+            fileName: file.current.files[0].name,
+          },
+          () => {
+            console.log('sent', chunk);
+            setPercent(Math.round((chunkId / chunkCount) * 100));
+          }
+        );
+      }
+    };
+
+    file_.readAsArrayBuffer(file.current.files[0]);
   }, []);
 
   return (
     <div>
+      <h1>Hello {user?.name}</h1>
+      <h1>Percent {percent}</h1>
+      <Button onClick={logout}>Logout</Button>
       <Button onClick={upload}>Upload</Button>
+
       <input ref={file} id='photo' type='file' />
+
       <div
         style={{
           marginTop: '20px',
@@ -69,7 +85,40 @@ export default function Home() {
           flexDirection: 'column',
           marginLeft: '20px',
         }}
-      ></div>
+      >
+        <TextInput
+          placeholder='Your name'
+          label='Full name'
+          radius='md'
+          size='md'
+          onChange={(e) => {
+            setMsg(e.target.value);
+          }}
+        />
+        {users.map((user_) => {
+          return (
+            <Button
+              color='yellow'
+              radius='xl'
+              size='md'
+              uppercase
+              style={{
+                width: '30%',
+                marginTop: '10px',
+              }}
+              onClick={() => {
+                socket.emit('send_msg', {
+                  name: user.name,
+                  to: user_._id,
+                  msg,
+                });
+              }}
+            >
+              {user_.name}
+            </Button>
+          );
+        })}
+      </div>
     </div>
   );
 }
