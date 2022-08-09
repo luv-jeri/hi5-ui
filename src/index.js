@@ -19,7 +19,7 @@ root.render(
     <AuthContextProvider>
       <SocketProvider>
         <MantineProvider
-          theme={{ colorScheme: 'dark' }}
+          theme={{ colorScheme: 'light' }}
           withGlobalStyles
           withNormalizeCSS
         >
