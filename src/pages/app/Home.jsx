@@ -13,8 +13,6 @@ export default function Home() {
   const { socket } = useSocket();
 
 
-  console.log(user);
-
   return (
     <div className='Main-Container'>
       <ChatList />
