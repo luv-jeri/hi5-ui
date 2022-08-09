@@ -16,7 +16,7 @@ import { Avatar } from '@mantine/core';
 import axios from 'axios';
 
 function AddFriend({}, ref) {
-  const [opened, setOpened] = useState(true);
+  const [opened, setOpened] = useState(false);
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
 

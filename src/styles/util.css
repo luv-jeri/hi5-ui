@@ -1,10 +1,12 @@
-.f{
-    display:  flex;
+.f {
+    display: flex;
 }
-.jc-c{
+
+.jc-c {
     justify-content: center;
 }
-.jc-b{
+
+.jc-b {
     justify-content: space-between;
 }
 
@@ -12,10 +14,10 @@
     align-items: center;
 }
 
-.f-c{
+.f-c {
     flex-direction: column;
 }
 
-.m-t-10{
+.m-t-10 {
     margin-top: 20px;
 }
