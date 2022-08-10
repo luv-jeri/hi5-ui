@@ -6,7 +6,7 @@ import { Modal, Stack, Space, Text, Textarea } from '@mantine/core';
 import { IconAt, IconUser, IconSignature } from '@tabler/icons';
 
 import EditFields from '../../parts/EditFields';
-import EditPhoto from './../../parts/EditPhoto';
+import EditPhoto from '../../parts/EditPhoto';
 
 
 const ProfileModal = createContext();

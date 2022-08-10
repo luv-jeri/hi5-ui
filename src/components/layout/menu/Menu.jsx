@@ -1,8 +1,11 @@
 import { Menu, Text } from '@mantine/core';
 import { IconSettings, IconSearch, IconTrash, IconArrowsLeftRight } from '@tabler/icons';
 import useAuth from '../../../context/Auth.context';
+import useProfileModal from '../../wrappers/modals/Profile';
+
 export default function UserMenu({ children }) {
   const { logout } = useAuth();
+    const { openProfileModal } = useProfileModal();
   return (
     <Menu
       styles={{
@@ -44,7 +47,7 @@ export default function UserMenu({ children }) {
             User
           </Text>
         </Menu.Label>
-        <Menu.Item icon={<IconArrowsLeftRight size={14} />}>
+        <Menu.Item onClick={openProfileModal} icon={<IconArrowsLeftRight size={14} />}>
           <Text size='md' align='left'>
             Profile
           </Text>
@@ -54,7 +57,7 @@ export default function UserMenu({ children }) {
             size='md'
             align='left'
             onClick={() => {
-             logout()
+              logout();
             }}
           >
             Logout

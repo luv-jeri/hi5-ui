@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { showNotification } from '@mantine/notifications';
 import { TextInput } from '@mantine/core';
-import useProfileModal from '../../components/modals/profile/Profile';
+import useProfileModal from '../../components/wrappers/modals/Profile';
 import socket from '../../socket';
 
 export default function Home() {
@@ -76,7 +76,6 @@ export default function Home() {
       />
 
       <Button onClick={upload}>Upload</Button>
-      <Button onClick={openProfileModal}>Open profile</Button>
     </div>
   );
 }

@@ -7,11 +7,11 @@ import App from './App';
 import { AuthContextProvider } from './context/Auth.context';
 
 import { BrowserRouter as Router } from 'react-router-dom';
-import { MantineProvider, Button } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
-
+import {Theme} from './components/wrappers/config/Theme';
 import axios from 'axios';
-import { ProfileModalProvider } from './components/modals/profile/Profile';
+import { ProfileModalProvider } from './components/wrappers/modals/Profile';
 
 axios.defaults.baseURL = 'http://localhost:8000/api/v1/';
 
@@ -22,31 +22,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <MantineProvider
-        theme={{
-          colorScheme: 'dark',
-          fontFamily: 'Poppins, sans-serif',
-          fontFamilyMonospace: 'Poppins, Courier, monospace',
-          headings: { fontFamily: 'Poppins, sans-serif' },
-          colors: {
-            'ocean-blue': [
-              '#7AD1DD',
-              '#5FCCDB',
-              '#44CADC',
-              '#2AC9DE',
-              '#1AC2D9',
-              '#11B7CD',
-              '#09ADC3',
-              '#0E99AC',
-              '#128797',
-              '#147885',
-            ],
-          },
-        }}
-        withGlobalStyles
-        withNormalizeCSS
-      >
-        <NavigationProgress size={5} exitTransitionDuration={1000}/>
+      <Theme>
+        <NavigationProgress size={5} exitTransitionDuration={1000} />
         <NotificationsProvider>
           <Router>
             <ProfileModalProvider>
@@ -54,7 +31,7 @@ root.render(
             </ProfileModalProvider>
           </Router>
         </NotificationsProvider>
-      </MantineProvider>
+      </Theme>
     </AuthContextProvider>
   </React.StrictMode>
 );

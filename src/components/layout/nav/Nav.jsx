@@ -11,9 +11,9 @@ import {
 import { useRef } from 'react';
 import { AppShell, Navbar, Header } from '@mantine/core';
 
-export default function Index() {
-  const addFriendRef = useRef();
 
+
+export default function Index() {
   return (
     <AppShell
       padding='md'
