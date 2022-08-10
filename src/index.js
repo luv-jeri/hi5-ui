@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/index.css';
+import { NavigationProgress } from '@mantine/nprogress';
 import App from './App';
 
 import { AuthContextProvider } from './context/Auth.context';
@@ -45,6 +46,7 @@ root.render(
         withGlobalStyles
         withNormalizeCSS
       >
+        <NavigationProgress size={5} exitTransitionDuration={1000}/>
         <NotificationsProvider>
           <Router>
             <ProfileModalProvider>
