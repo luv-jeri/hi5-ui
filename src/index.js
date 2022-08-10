@@ -8,7 +8,9 @@ import { AuthContextProvider } from './context/Auth.context';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { MantineProvider, Button } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
+
 import axios from 'axios';
+import { ProfileModalProvider } from './components/modals/profile/Profile';
 
 axios.defaults.baseURL = 'http://localhost:8000/api/v1/';
 
@@ -39,14 +41,15 @@ root.render(
               '#147885',
             ],
           },
-          
         }}
         withGlobalStyles
         withNormalizeCSS
       >
         <NotificationsProvider>
           <Router>
-            <App />
+            <ProfileModalProvider>
+              <App />
+            </ProfileModalProvider>
           </Router>
         </NotificationsProvider>
       </MantineProvider>

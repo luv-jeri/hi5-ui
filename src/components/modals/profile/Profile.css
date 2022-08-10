@@ -1,0 +1,15 @@
+.file-picker {
+    opacity: 0;
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: red;
+    width: 100%;
+}
+
+.photo {
+    position: relative;
+
+}

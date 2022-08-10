@@ -5,10 +5,13 @@ import axios from 'axios';
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { showNotification } from '@mantine/notifications';
 import { TextInput } from '@mantine/core';
+import useProfileModal from '../../components/modals/profile/Profile';
 import socket from '../../socket';
 
 export default function Home() {
   const file = useRef(null);
+
+  const { openProfileModal } = useProfileModal();
 
   const { logout, user } = useAuth();
   const [users, setUsers] = useState([]);
@@ -40,6 +43,7 @@ export default function Home() {
     const data = new FormData();
     data.append('file', file.current.files[0]);
     setMsg('Uploading');
+
     await axios.post('/upload', data, {
       onUploadProgress: (progressEvent) => {
         const { loaded, total } = progressEvent;
@@ -57,40 +61,6 @@ export default function Home() {
     });
   };
 
-  // const upload = useCallback(() => {
-  //   console.log(file.current.files[0]);
-
-  //   const file_ = new FileReader();
-
-  //   file_.onload = (e) => {
-  //     console.log('uploading', e.target.result);
-
-  //     const CHUNK_SIZE = 8000;
-  //     const chunkCount = e.target.result.byteLength / CHUNK_SIZE;
-
-  //     for (let chunkId = 0; chunkId < chunkCount + 1; chunkId++) {
-  //       const chunk = e.target.result.slice(
-  //         chunkId * CHUNK_SIZE,
-  //         chunkId * CHUNK_SIZE + CHUNK_SIZE
-  //       );
-
-  //       socket.emit(
-  //         'file',
-  //         {
-  //           chunk,
-  //           fileName: file.current.files[0].name,
-  //         },
-  //         () => {
-  //           console.log('sent', chunk);
-  //           setPercent(Math.round((chunkId / chunkCount) * 100));
-  //         }
-  //       );
-  //     }
-  //   };
-
-  //   file_.readAsArrayBuffer(file.current.files[0]);
-  // }, []);
-
   return (
     <div>
       <h1>
@@ -106,6 +76,63 @@ export default function Home() {
       />
 
       <Button onClick={upload}>Upload</Button>
+      <Button onClick={openProfileModal}>Open profile</Button>
     </div>
   );
 }
+
+// const upload_ = useCallback(() => {
+//   console.log(file.current.files[0]);
+
+//   const file_ = new FileReader();
+
+//   file_.readAsArrayBuffer(file.current.files[0]);
+
+//   file_.onload = (e) => {
+//     console.log('uploading', e.target.result);
+
+//     const CHUNK_SIZE = 8000;
+
+//     const chunkCount = e.target.result.byteLength / CHUNK_SIZE;
+
+//     for (let chunkId = 0; chunkId < chunkCount + 1; chunkId++) {
+//       const chunk = e.target.result.slice(
+//         chunkId * CHUNK_SIZE,
+//         chunkId * CHUNK_SIZE + CHUNK_SIZE
+//       );
+
+//       // fetch('/upload', {
+//       //   method: 'POST',
+//       //   body: chunk,
+//       //   headers: {
+//       //     'Content-Type': 'application/octet-stream',
+//       //   },
+//       // });
+
+//       // axios.post(
+//       //   '/upload',
+//       //   {
+//       //     chunk,
+//       //   },
+//       //   {
+//       //     headers: {
+//       //       'Content-Type': 'application/octet-stream',
+//       //     },
+//       //   }
+//       // );
+
+//       socket.emit(
+//         'file',
+//         {
+//           chunk,
+//           fileName: file.current.files[0].name,
+//         },
+
+//         () => {
+//           console.log('sent', chunk);
+//           setPercent(Math.round((chunkId / chunkCount) * 100));
+//         }
+//       );
+//     }
+//   };
+// }, []);

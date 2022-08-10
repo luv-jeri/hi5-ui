@@ -75,6 +75,7 @@ export function AuthContextProvider({ children }) {
     signUp,
     logout,
     user,
+    setUser
   };
 
   return <AuthContext.Provider value={value}>{!loading ? children :  <h1>Loader</h1>}</AuthContext.Provider>;
