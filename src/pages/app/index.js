@@ -24,7 +24,9 @@ import useAuth from '../../context/Auth.context';
 import { useToggle } from '@mantine/hooks';
 import useTheme from '../../components/wrappers/config/Theme';
 import Home from './Home';
+
 import { IconSearch } from '@tabler/icons';
+
 export default function Index() {
   const addFriendRef = useRef();
   const [value, toggle] = useToggle(['dark', 'light']);
@@ -37,21 +39,6 @@ export default function Index() {
   const [opened, setOpened] = useState(false);
 
   const theme = useMantineTheme();
-  const swatches = Object.keys(theme.colors).map((color) => (
-    <ColorSwatch
-      style={{
-        cursor: 'pointer',
-      }}
-      key={color}
-      color={theme.colors[color][6]}
-      onClick={() => {
-        console.log(color);
-        updateTheme('primaryColor', color);
-
-        // setOpened(false);
-      }}
-    />
-  ));
 
   const { user } = useAuth();
 
@@ -151,12 +138,10 @@ export default function Index() {
       // }
     >
       <AddFriend ref={addFriendRef}></AddFriend>
-      <Group position='center' spacing='xs'>
-        {swatches}
-      </Group>
-      {/* <Routes>
+
+      <Routes>
         <Route path='/' element={<Home />} />
-      </Routes> */}
+      </Routes>
     </AppShell>
   );
 }

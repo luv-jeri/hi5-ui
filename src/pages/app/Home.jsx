@@ -5,13 +5,15 @@ import axios from 'axios';
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { showNotification } from '@mantine/notifications';
 import { TextInput } from '@mantine/core';
-import useProfileModal from '../../components/wrappers/modals/Profile';
+import useProfileModal from '../../components/wrappers/modals/profile/Profile';
+import useCustomizationModal from '../../components/wrappers/modals/customization/Customization';
 import socket from '../../socket';
 
 export default function Home() {
   const file = useRef(null);
 
   const { openProfileModal } = useProfileModal();
+  const { handleCustomizationModalOpen } = useCustomizationModal();
 
   const { logout, user } = useAuth();
   const [users, setUsers] = useState([]);
@@ -76,6 +78,7 @@ export default function Home() {
       />
 
       <Button onClick={upload}>Upload</Button>
+      <Button onClick={handleCustomizationModalOpen}>handleCustomizationModalOpen</Button>
     </div>
   );
 }

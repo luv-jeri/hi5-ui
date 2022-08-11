@@ -1,7 +1,7 @@
 import { Menu, Text } from '@mantine/core';
 import { IconSettings, IconSearch, IconTrash, IconArrowsLeftRight } from '@tabler/icons';
 import useAuth from '../../../context/Auth.context';
-import useProfileModal from '../../wrappers/modals/Profile';
+import useProfileModal from '../../wrappers/modals/profile/Profile';
 
 export default function UserMenu({ children }) {
   const { logout } = useAuth();

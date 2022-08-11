@@ -1,12 +1,12 @@
 import { useState, useContext, createContext } from 'react';
-import useAuth from '../../../context/Auth.context';
+import useAuth from '../../../../context/Auth.context';
 import './Profile.css';
 import { Modal, Stack, Space, Text, Textarea } from '@mantine/core';
 
 import { IconAt, IconUser, IconSignature } from '@tabler/icons';
 
-import EditFields from '../../parts/EditFields';
-import EditPhoto from '../../parts/EditPhoto';
+import EditFields from '../../../parts/EditFields';
+import EditPhoto from '../../../parts/EditPhoto';
 
 
 const ProfileModal = createContext();

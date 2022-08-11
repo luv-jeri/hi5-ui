@@ -10,10 +10,18 @@ const useTheme = () => {
 export function Theme({ children }) {
   const [theme, setTheme] = React.useState({
     colorScheme: 'dark',
-    fontFamily: 'Poppins, sans-serif',
-    fontFamilyMonospace: 'Poppins, Courier, monospace',
-    headings: { fontFamily: 'Poppins, sans-serif' },
-    background: '#147885',
+    fontFamily: 'Quicksand',
+    fontFamilyMonospace: 'Quicksand',
+    fontSizes: {
+      xs: 10,
+      sm: 12,
+      md: 14,
+      lg: 16,
+      xl: 20,
+    },
+    headings: {
+      fontFamily: 'Quicksand',
+    },
     colors: {
       'ocean-blue': [
         '#7AD1DD',
@@ -30,13 +38,41 @@ export function Theme({ children }) {
     },
   });
 
+  const changeFont = (value) => {
+    setTheme({
+      ...theme,
+      fontFamily: value,
+      headings: { fontFamily: value },
+      fontFamilyMonospace: value,
+    });
+  };
   const updateTheme = (key, value) => {
     setTheme({ ...theme, [key]: value });
   };
 
+  const changeHeadingSize = (key, value) => {
+    console.log('changeHeadingSize', key, value);
+    setTheme({
+      ...theme,
+      headings: { ...theme.headings, sizes: { ...theme.headings.sizes, [key]: value } },
+    });
+
+    console.log('theme', theme);
+  };
+
+  const changeFontSize = (key, value) => {
+    setTheme({
+      ...theme,
+      fontSizes: { ...theme.fontSizes, [key]: value },
+    });
+  }
+
   const value = {
     theme,
     updateTheme,
+    changeFont,
+    changeHeadingSize,
+    changeFontSize,
   };
 
   return (

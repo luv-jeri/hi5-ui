@@ -9,9 +9,10 @@ import { AuthContextProvider } from './context/Auth.context';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
-import {Theme} from './components/wrappers/config/Theme';
+import { Theme } from './components/wrappers/config/Theme';
 import axios from 'axios';
-import { ProfileModalProvider } from './components/wrappers/modals/Profile';
+import { ProfileModalProvider } from './components/wrappers/modals/profile/Profile';
+import { CustomizationModalProvider } from './components/wrappers/modals/customization/Customization';
 
 axios.defaults.baseURL = 'http://localhost:8000/api/v1/';
 
@@ -26,9 +27,11 @@ root.render(
         <NavigationProgress size={5} exitTransitionDuration={1000} />
         <NotificationsProvider>
           <Router>
-            <ProfileModalProvider>
-              <App />
-            </ProfileModalProvider>
+            <CustomizationModalProvider>
+              <ProfileModalProvider>
+                <App />
+              </ProfileModalProvider>
+            </CustomizationModalProvider>
           </Router>
         </NotificationsProvider>
       </Theme>
