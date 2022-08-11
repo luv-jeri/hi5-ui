@@ -14,6 +14,7 @@ import axios from 'axios';
 import { ProfileModalProvider } from './components/wrappers/modals/profile/Profile';
 import { CustomizationModalProvider } from './components/wrappers/modals/customization/Customization';
 
+import { AddFriendModalProvider } from './components/wrappers/modals/AddFriends';
 axios.defaults.baseURL = 'http://localhost:8000/api/v1/';
 
 axios.defaults.withCredentials = true;
@@ -29,7 +30,10 @@ root.render(
           <Router>
             <CustomizationModalProvider>
               <ProfileModalProvider>
-                <App />
+                <AddFriendModalProvider>
+                 
+                  <App />
+                </AddFriendModalProvider>
               </ProfileModalProvider>
             </CustomizationModalProvider>
           </Router>

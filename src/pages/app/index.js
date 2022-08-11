@@ -1,7 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-import { Box, Input } from '@mantine/core';
-import { Menu, Button, Text } from '@mantine/core';
-
 import { useRef, useState, useEffect } from 'react';
 import {
   ActionIcon,
@@ -13,29 +10,71 @@ import {
   MediaQuery,
   Burger,
   useMantineTheme,
-  Image,
-  ColorSwatch,
-  Group,
+  Text,
+  Box,
+  Space,
 } from '@mantine/core';
-import AddFriend from '../../components/AddFriend';
 import UserMenu from '../../components/layout/menu/Menu';
-import { Avatar } from '@mantine/core';
+import { Avatar, Title } from '@mantine/core';
 import useAuth from '../../context/Auth.context';
-import { useToggle } from '@mantine/hooks';
-import useTheme from '../../components/wrappers/config/Theme';
+
 import Home from './Home';
 
-import { IconSearch } from '@tabler/icons';
+const Menu = () => {
+  const [opened, setOpened] = useState(false);
+
+  const theme = useMantineTheme();
+
+  const { user } = useAuth();
+  return (
+    <UserMenu>
+      <ActionIcon
+        style={{
+          marginRight: '10px',
+        }}
+      >
+        <Avatar
+          style={{
+            borderWidth: '3px',
+            borderColor: theme.colors[theme.primaryColor][5],
+            borderStyle: 'solid',
+          }}
+          radius='xl'
+          size='md'
+          src={user?.photo}
+        />
+      </ActionIcon>
+    </UserMenu>
+    // <div
+    //   style={{
+    //     display: 'flex',
+    //     alignItems: 'center',
+    //     justifyContent: 'space-between',
+    //   }}
+    //   height={60}
+    //   p='md'
+    //   sx={{
+    //     background:
+    //       theme.colorScheme === 'dark'
+    //         ? theme.colors.dark[7]
+    //         : theme.colors[theme.primaryColor][0],
+    //   }}
+    // >
+    //   <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
+    //     <Burger
+    //       opened={opened}
+    //       onClick={() => setOpened((o) => !o)}
+    //       size='sm'
+    //       color={theme.colors.gray[6]}
+    //       mr='xl'
+    //     />
+    //   </MediaQuery>
+
+    // </div>
+  );
+};
 
 export default function Index() {
-  const addFriendRef = useRef();
-  const [value, toggle] = useToggle(['dark', 'light']);
-  const { updateTheme } = useTheme();
-
-  useEffect(() => {
-    updateTheme('colorScheme', value);
-  }, [value]);
-
   const [opened, setOpened] = useState(false);
 
   const theme = useMantineTheme();
@@ -68,77 +107,82 @@ export default function Index() {
       aside={
         <MediaQuery smallerThan='sm' styles={{ display: 'none' }}>
           <Aside p='md' hiddenBreakpoint='sm' width={{ sm: 200, lg: 300 }}>
-            <Text>Application sidebar</Text>
+            <Box
+              sx={(theme) => ({
+                backgroundColor:
+                  theme.colorScheme === 'dark'
+                    ? theme.colors.dark[8]
+                    : theme.colors.gray[0],
+                borderRadius: theme.radius.md,
+                justifyContent: 'space-between',
+                padding: theme.spacing.md,
+                flex: 1,
+              })}
+            >
+              Dataroom
+            </Box>
+            <Space h='md' />
+            <Box
+              sx={(theme) => ({
+                backgroundColor:
+                  theme.colorScheme === 'dark'
+                    ? theme.colors.dark[8]
+                    : theme.colors.gray[0],
+                borderRadius: theme.radius.md,
+                justifyContent: 'space-between',
+                padding: theme.spacing.md,
+                display: 'flex',
+              })}
+            >
+              <Title order={4}> Hi5 👋🏻 {user?.name} </Title> <Menu />
+            </Box>
           </Aside>
         </MediaQuery>
       }
       footer={
-        <Footer
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-          height={60}
-          p='md'
-          sx={{
-            background:
+        <MediaQuery
+          smallerThan='md'
+          styles={{
+            display: 'none',
+            backgroundColor:
               theme.colorScheme === 'dark'
-                ? theme.colors.dark[7]
-                : theme.colors[theme.primaryColor][0],
+                ? theme.colors.dark[8]
+                : theme.colors[theme.primaryColor][3],
           }}
         >
-          <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
-            <Burger
-              opened={opened}
-              onClick={() => setOpened((o) => !o)}
-              size='sm'
-              color={theme.colors.gray[6]}
-              mr='xl'
-            />
-          </MediaQuery>
-          <Button color={value} onClick={() => toggle()}>
-            {value}
-          </Button>
-          <ActionIcon
-            onClick={() => {
-              addFriendRef.current.openModal();
+          <Box
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              position: 'absolute',
+              bottom: 0,
+              width: '100%',
+              height: 40,
+              zIndex: 10000,
+
+              borderTopLeftRadius: theme.radius.md,
+              borderTopRightRadius: theme.radius.md,
+              padding: theme.spacing.md,
+              flex: 1,
             }}
+            p='md'
           >
-            <IconSearch
-              style={{
-                width: '250px',
-              }}
-              radius='xl'
-              leftIcon={<IconSearch />}
-            />
-          </ActionIcon>
+            <MediaQuery largerThan='sm' styles={{ display: 'none' }}>
+              <Burger
+                opened={opened}
+                onClick={() => setOpened((o) => !o)}
+                size='sm'
+                color={theme.colors[theme.primaryColor][9]}
+                mr='xl'
+              />
+            </MediaQuery>
 
-          <UserMenu>
-            <ActionIcon
-              style={{
-                marginRight: '10px',
-              }}
-            >
-              <Avatar radius='xl' size='md' src={user?.photo} />
-            </ActionIcon>
-          </UserMenu>
-        </Footer>
+          
+          </Box>
+        </MediaQuery>
       }
-      // header={
-      //   <Header
-      //     height={20}
-      //     style={{
-      //       display: 'flex',
-      //       alignItems: 'center',
-      //       justifyContent: 'space-between',
-      //     }}
-      //     p='md'
-      //   ></Header>
-      // }
     >
-      <AddFriend ref={addFriendRef}></AddFriend>
-
       <Routes>
         <Route path='/' element={<Home />} />
       </Routes>

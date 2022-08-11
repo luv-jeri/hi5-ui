@@ -2,10 +2,13 @@ import { Menu, Text } from '@mantine/core';
 import { IconSettings, IconSearch, IconTrash, IconArrowsLeftRight } from '@tabler/icons';
 import useAuth from '../../../context/Auth.context';
 import useProfileModal from '../../wrappers/modals/profile/Profile';
-
+import useAddFriendModal from '../../wrappers/modals/AddFriends';
+import useCustomizationModal from '../../wrappers/modals/customization/Customization';
 export default function UserMenu({ children }) {
   const { logout } = useAuth();
-    const { openProfileModal } = useProfileModal();
+  const { openProfileModal } = useProfileModal();
+  const { handleAddFriendModal } = useAddFriendModal();
+  const { handleCustomizationModalOpen } = useCustomizationModal();
   return (
     <Menu
       styles={{
@@ -24,13 +27,17 @@ export default function UserMenu({ children }) {
             Application
           </Text>
         </Menu.Label>
-        <Menu.Item icon={<IconSettings size={14} />}>
+        <Menu.Item
+          onClick={handleCustomizationModalOpen}
+          icon={<IconSettings size={14} />}
+        >
           <Text size='md' align='left'>
             Settings
           </Text>
         </Menu.Item>
         <Menu.Item
           icon={<IconSearch size={14} />}
+          onClick={handleAddFriendModal}
           rightSection={
             <Text size='lg' color='dimmed'>
               ⌘K

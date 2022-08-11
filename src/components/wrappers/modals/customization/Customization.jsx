@@ -13,12 +13,15 @@ import {
   Text,
   Divider,
   Slider,
+  ActionIcon,
 } from '@mantine/core';
 import {
   IconTypography,
   IconMessageCircle,
   IconSettings,
   IconPalette,
+  IconSun,
+  IconMoonStars,
 } from '@tabler/icons';
 import useTheme from '../../config/Theme';
 import './Customization.css';
@@ -59,7 +62,7 @@ const FontSizeSlider = ({ size, key }) => {
 
 export function CustomizationModalProvider({ children }, ref) {
   const [opened, setOpened] = useState(true);
-  const { updateTheme, changeFont, changeFontSize } = useTheme();
+  const { updateTheme, changeFont } = useTheme();
   const theme = useMantineTheme();
 
   const swatches = Object.keys(theme.colors).map((color) => (
@@ -106,7 +109,7 @@ export function CustomizationModalProvider({ children }, ref) {
             padding: theme.spacing.md,
           })}
         >
-          <Tabs defaultValue='fonts'>
+          <Tabs defaultValue='colors'>
             <Tabs.List>
               <Tabs.Tab value='colors' icon={<IconPalette size={14} />}>
                 Colors
@@ -120,10 +123,41 @@ export function CustomizationModalProvider({ children }, ref) {
             </Tabs.List>
 
             <Tabs.Panel value='colors' pt='xs'>
+              <Title order={5}>Select your favorite Color.</Title>
               <Space h='md' />
               <Group position='left' spacing='xs'>
                 {swatches}
               </Group>
+              <Divider my='sm' />
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                {' '}
+                <Title order={5}>Dark/Light</Title>
+                <Space h='xs' />
+                <ActionIcon
+                  variant='outline'
+                  color={theme.colorScheme === 'dark' ? 'yellow' : 'blue'}
+                  onClick={() => {
+                    updateTheme(
+                      'colorScheme',
+                      theme.colorScheme === 'dark' ? 'light' : 'dark'
+                    );
+                  }}
+                  size="lg"
+                  title='Toggle color scheme'
+                >
+                  {theme.colorScheme === 'dark' ? (
+                    <IconSun size={18} />
+                  ) : (
+                    <IconMoonStars size={18} />
+                  )}
+                </ActionIcon>
+              </div>
             </Tabs.Panel>
 
             <Tabs.Panel value='fonts' pt='xs'>
