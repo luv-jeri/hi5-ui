@@ -1,5 +1,4 @@
 import React, { useContext, createContext, useState } from 'react';
-import { MantineProvider, Select } from '@mantine/core';
 import {
   Modal,
   Title,
@@ -33,8 +32,11 @@ const useCustomizationModal = () => {
 };
 
 const FontSizeSlider = ({ size, key }) => {
-  const { updateTheme, changeFont, changeFontSize } = useTheme();
+  const { changeFontSize } = useTheme();
+
   const theme = useMantineTheme();
+
+  
   return (
     <div
       key={key}
@@ -44,9 +46,14 @@ const FontSizeSlider = ({ size, key }) => {
         alignItems: 'center',
       }}
     >
-      <Title order={5} style={{
-        minWidth: '50px',
-      }}>{size}</Title>
+      <Title
+        order={5}
+        style={{
+          minWidth: '50px',
+        }}
+      >
+        {size}
+      </Title>
       <Slider
         style={{
           flex: 1,
@@ -61,7 +68,7 @@ const FontSizeSlider = ({ size, key }) => {
 };
 
 export function CustomizationModalProvider({ children }, ref) {
-  const [opened, setOpened] = useState(true);
+  const [opened, setOpened] = useState(false);
   const { updateTheme, changeFont } = useTheme();
   const theme = useMantineTheme();
 
@@ -114,9 +121,11 @@ export function CustomizationModalProvider({ children }, ref) {
               <Tabs.Tab value='colors' icon={<IconPalette size={14} />}>
                 Colors
               </Tabs.Tab>
+
               <Tabs.Tab value='fonts' icon={<IconTypography size={14} />}>
                 Fonts
               </Tabs.Tab>
+
               <Tabs.Tab value='variants' icon={<IconSettings size={14} />}>
                 Variants
               </Tabs.Tab>
@@ -125,9 +134,11 @@ export function CustomizationModalProvider({ children }, ref) {
             <Tabs.Panel value='colors' pt='xs'>
               <Title order={5}>Select your favorite Color.</Title>
               <Space h='md' />
-              <Group position='left' spacing='xs'>
+
+              <Group position='center' spacing='xs'>
                 {swatches}
               </Group>
+
               <Divider my='sm' />
               <div
                 style={{
@@ -148,7 +159,7 @@ export function CustomizationModalProvider({ children }, ref) {
                       theme.colorScheme === 'dark' ? 'light' : 'dark'
                     );
                   }}
-                  size="lg"
+                  size='lg'
                   title='Toggle color scheme'
                 >
                   {theme.colorScheme === 'dark' ? (

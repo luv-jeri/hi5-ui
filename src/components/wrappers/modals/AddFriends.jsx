@@ -10,10 +10,10 @@ import {
   Indicator,
 } from '@mantine/core';
 import { Input } from '@mantine/core';
-import { IconUserSearch, IconPlus, IconHexagonOff } from '@tabler/icons';
+import { IconUserSearch, IconPlus, IconHexagonOff, IconX } from '@tabler/icons';
 import { Avatar } from '@mantine/core';
 import axios from 'axios';
-
+import useAuth from '../../../context/Auth.context';
 const AddFriendModalContext = createContext();
 
 const useAddFriendModal = () => {
@@ -22,6 +22,8 @@ const useAddFriendModal = () => {
 
 const UserCard = ({ user }) => {
   const theme = useMantineTheme();
+
+  const { user: me } = useAuth();
 
   const date1 = new Date();
   const date2 = new Date(user.lastSeen);
@@ -41,6 +43,12 @@ const UserCard = ({ user }) => {
       : diffSeconds > 0
       ? `${diffSeconds} seconds ago`
       : `${diffMilliseconds} milliseconds ago`;
+
+  const sendRequest = async () => {
+    const { data } = await axios.post(`/friend/${user._id}`);
+
+    console.log('data', data);
+  };
 
   return (
     <Grid.Col span={3}>
@@ -119,9 +127,27 @@ const UserCard = ({ user }) => {
             justifyContent: 'space-evenly',
           }}
         >
-          <ActionIcon size='lg' radius='xl' variant='subtle' color='primary'>
-            <IconPlus size='xl' />
-          </ActionIcon>
+          {!user.requests.includes(me._id) ? (
+            <ActionIcon
+              onClick={sendRequest}
+              size='lg'
+              radius='xl'
+              variant='subtle'
+              color='primary'
+            >
+              <IconPlus size='xl' />
+            </ActionIcon>
+          ) : (
+            <ActionIcon
+              onClick={sendRequest}
+              size='lg'
+              radius='xl'
+              variant='subtle'
+              color='primary'
+            >
+              <IconX size='xl' />
+            </ActionIcon>
+          )}
           <ActionIcon color='red' size='lg' radius='xl' variant='filled'>
             <IconHexagonOff />
           </ActionIcon>
@@ -131,8 +157,8 @@ const UserCard = ({ user }) => {
   );
 };
 
-export function AddFriendModalProvider({children}) {
-  const [opened, setOpened] = useState(false);
+export function AddFriendModalProvider({ children }) {
+  const [opened, setOpened] = useState(true);
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
   const theme = useMantineTheme();

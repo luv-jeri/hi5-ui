@@ -31,7 +31,6 @@ root.render(
             <CustomizationModalProvider>
               <ProfileModalProvider>
                 <AddFriendModalProvider>
-                 
                   <App />
                 </AddFriendModalProvider>
               </ProfileModalProvider>
