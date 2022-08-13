@@ -5,9 +5,9 @@ import useAuth from './context/Auth.context';
 import { SocketProvider } from './context/Socket.context';
 
 function App() {
-  const { token } = useAuth();
+  const { user } = useAuth();
 
-  return <>{token ? <Application /> : <Auth />}</>;
+  return <>{user ? <Application /> : <Auth />}</>;
 }
 
 export default App;

@@ -1,4 +1,11 @@
-import { useContext, createContext, useState, useLayoutEffect, useEffect } from 'react';
+import {
+  useContext,
+  createContext,
+  useState,
+  useLayoutEffect,
+  useEffect,
+  useCallback,
+} from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -11,22 +18,33 @@ export function AuthContextProvider({ children }) {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const logout = () => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem('token');
+    axios.defaults.headers.common.Authorization = null;
+  };
 
-  useEffect(() => {
-    if (token) {
+  const whoami = useCallback(async () => {
+    const token = localStorage.getItem('token');
+    try {
+      if (!token) throw new Error('No token');
+
       axios.defaults.headers.common['Authorization'] = token;
-
-      axios.get('auth/whoami').then((res) => {
-        setUser(res.data.data);
-      });
-
-      
+      const { data } = await axios.get('auth/whoami');
+      setUser(data.data);
+    } catch (e) {
+      logout();
     }
-  }, [token]);
+    setLoading(false);
+  }, []);
+
+  useLayoutEffect(() => {
+    whoami();
+  }, [whoami , token]);
 
   useLayoutEffect(() => {
     const token = localStorage.getItem('token');
-    setLoading(false);
     if (token) {
       setToken(token);
     }
@@ -63,22 +81,20 @@ export function AuthContextProvider({ children }) {
     }
   };
 
-  const logout = () => {
-    setToken(null);
-    localStorage.removeItem('token');
-    axios.defaults.headers.common.Authorization = null;
-  };
-
   const value = {
     token,
     signIn,
     signUp,
     logout,
     user,
-    setUser
+    setUser,
   };
 
-  return <AuthContext.Provider value={value}>{!loading ? children :  <h1>Loader</h1>}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {loading ? <h1>Loader</h1> : children}
+    </AuthContext.Provider>
+  );
 }
 
 export default useAuth;
