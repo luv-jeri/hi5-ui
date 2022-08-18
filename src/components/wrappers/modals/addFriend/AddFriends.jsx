@@ -13,17 +13,20 @@ import { Input } from '@mantine/core';
 import { IconUserSearch, IconPlus, IconHexagonOff, IconX } from '@tabler/icons';
 import { Avatar } from '@mantine/core';
 import axios from 'axios';
-import useAuth from '../../../context/Auth.context';
+import useAuth from '../../../../context/Auth.context';
+import { showNotification } from '@mantine/notifications';
 const AddFriendModalContext = createContext();
 
 const useAddFriendModal = () => {
   return useContext(AddFriendModalContext);
 };
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user: user_ }) => {
+  const [user, setUser] = useState(user_);
+
   const theme = useMantineTheme();
 
-  const { user: me } = useAuth();
+  const { user: me, setUser: setMe } = useAuth();
 
   const date1 = new Date();
   const date2 = new Date(user.lastSeen);
@@ -44,10 +47,50 @@ const UserCard = ({ user }) => {
       ? `${diffSeconds} seconds ago`
       : `${diffMilliseconds} milliseconds ago`;
 
-  const sendRequest = async () => {
-    const { data } = await axios.post(`/friend/${user._id}`);
+  const request = async () => {
+    console.log('here');
+    try {
+      const { data } = await axios.post(`/friend/${user._id}`);
 
-    console.log('data', data);
+      console.log('data', data);
+
+      showNotification({
+        title: 'Hey !',
+        message: data.message,
+      });
+
+      setUser(data.data);
+    } catch (e) {
+      console.log(e);
+
+      showNotification({
+        title: 'Hey !',
+        message: e.message,
+      });
+    }
+  };
+
+  const block = async () => {
+    console.log('here');
+    try {
+      const { data } = await axios.post(`/friend/block/${user._id}`);
+
+      console.log('data', data);
+
+      showNotification({
+        title: 'Hey !',
+        message: data.message,
+      });
+
+      setMe(data.data);
+    } catch (e) {
+      console.log(e);
+
+      showNotification({
+        title: 'Hey !',
+        message: e.message,
+      });
+    }
   };
 
   return (
@@ -129,7 +172,7 @@ const UserCard = ({ user }) => {
         >
           {!user.requests.includes(me._id) ? (
             <ActionIcon
-              onClick={sendRequest}
+              onClick={request}
               size='lg'
               radius='xl'
               variant='subtle'
@@ -139,7 +182,7 @@ const UserCard = ({ user }) => {
             </ActionIcon>
           ) : (
             <ActionIcon
-              onClick={sendRequest}
+              onClick={request}
               size='lg'
               radius='xl'
               variant='subtle'
@@ -148,9 +191,27 @@ const UserCard = ({ user }) => {
               <IconX size='xl' />
             </ActionIcon>
           )}
-          <ActionIcon color='red' size='lg' radius='xl' variant='filled'>
-            <IconHexagonOff />
-          </ActionIcon>
+          {!me.blocked.includes(user._id) ? (
+            <ActionIcon
+              color='red'
+              onClick={block}
+              size='lg'
+              radius='xl'
+              variant='filled'
+            >
+              <IconHexagonOff />
+            </ActionIcon>
+          ) : (
+            <ActionIcon
+              onClick={block}
+              color='green'
+              size='lg'
+              radius='xl'
+              variant='filled'
+            >
+              <IconHexagonOff />
+            </ActionIcon>
+          )}
         </div>
       </Paper>
     </Grid.Col>
@@ -158,7 +219,7 @@ const UserCard = ({ user }) => {
 };
 
 export function AddFriendModalProvider({ children }) {
-  const [opened, setOpened] = useState(true);
+  const [opened, setOpened] = useState(false);
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
   const theme = useMantineTheme();
@@ -230,8 +291,8 @@ export function AddFriendModalProvider({ children }) {
             padding: theme.spacing.md,
           })}
         >
-          {users.map((user) => {
-            return <UserCard user={user} />;
+          {users.map((user, i) => {
+            return <UserCard key={i} user={user} />;
           })}
         </Grid>
       </Modal>

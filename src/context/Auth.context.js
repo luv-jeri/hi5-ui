@@ -7,8 +7,21 @@ import {
   useCallback,
 } from 'react';
 import axios from 'axios';
+import { showNotification } from '@mantine/notifications';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import app from '../firebase';
 
 const AuthContext = createContext();
+
+const messaging = getMessaging(app); 
+
+onMessage(messaging, (payload) => {
+  console.log('Message received. ', payload);
+  showNotification({
+    title: payload.notification.title,
+    message: payload.notification.body,
+  });
+});
 
 const useAuth = () => {
   return useContext(AuthContext);
@@ -18,6 +31,7 @@ export function AuthContextProvider({ children }) {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const logout = () => {
     setToken(null);
     setUser(null);
@@ -41,7 +55,7 @@ export function AuthContextProvider({ children }) {
 
   useLayoutEffect(() => {
     whoami();
-  }, [whoami , token]);
+  }, [whoami, token]);
 
   useLayoutEffect(() => {
     const token = localStorage.getItem('token');
@@ -52,10 +66,17 @@ export function AuthContextProvider({ children }) {
 
   const signIn = async (email, password) => {
     try {
-      console.log(email, password);
-      const { data } = await axios.post('auth/sign_in', {
+      const push_token = await getToken(messaging, {
+        vapidKey:
+          'BC5goiM2wdvatMfHlwk4E4FFLOj_8vPewZOnXHu5TvWGvZblIJ34WTO6gi11jInQGrICBApWKWN2l7r33Xv-49g',
+      });
+
+      console.log('push_token', push_token);
+
+      const { data } = await axios.post(`auth/sign_in`, {
         email,
         password,
+        push_token: push_token,
       });
 
       console.log(data.data);
@@ -69,9 +90,15 @@ export function AuthContextProvider({ children }) {
 
   const signUp = async (params) => {
     try {
+      const push_token = await getToken(messaging, {
+        vapidKey:
+          'BC5goiM2wdvatMfHlwk4E4FFLOj_8vPewZOnXHu5TvWGvZblIJ34WTO6gi11jInQGrICBApWKWN2l7r33Xv-49g',
+      });
+
       const { data } = await axios.post('auth/sign_up', {
         ...params,
         phone: `+91${params.phone}`,
+        push_token,
       });
 
       localStorage.setItem('token', data.data.token);

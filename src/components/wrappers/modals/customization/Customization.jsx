@@ -18,7 +18,7 @@ import {
   IconTypography,
   IconMessageCircle,
   IconSettings,
-  IconPalette,
+  IconPalette, 
   IconSun,
   IconMoonStars,
 } from '@tabler/icons';

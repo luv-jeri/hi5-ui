@@ -9,9 +9,9 @@ const useTheme = () => {
 
 export function Theme({ children }) {
   const [theme, setTheme] = React.useState({
-    colorScheme: 'dark',
-    fontFamily: 'Poppins',
-    fontFamilyMonospace: 'Poppins',
+    colorScheme: 'light',
+    fontFamily: 'Inconsolata',
+    fontFamilyMonospace: 'Inconsolata',
     fontSizes: {
       xs: 10,
       sm: 12,
@@ -20,7 +20,7 @@ export function Theme({ children }) {
       xl: 20,
     },
     headings: {
-      fontFamily: 'Poppins',
+      fontFamily: 'Inconsolata',
     },
     colors: {
       'ocean-blue': [

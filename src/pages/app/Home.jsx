@@ -8,7 +8,8 @@ import { TextInput } from '@mantine/core';
 import useProfileModal from '../../components/wrappers/modals/profile/Profile';
 import useCustomizationModal from '../../components/wrappers/modals/customization/Customization';
 import socket from '../../socket';
-
+import useRequest from '../../context/Request.context';
+import { useLocation } from 'react-router-dom';
 export default function Home() {
   const file = useRef(null);
 
@@ -41,6 +42,9 @@ export default function Home() {
     });
   }, []);
 
+  const data = useLocation();
+  console.log(data);
+
   const upload = async () => {
     const data = new FormData();
     data.append('file', file.current.files[0]);
@@ -63,8 +67,17 @@ export default function Home() {
     });
   };
 
+  const { requests } = useRequest();
+
+  const sendNotification = async () => {
+    const { data } = axios.get('/test?id=62ed3e0a05dd590ee3ecc360');
+    console.log(data);
+  };
+
   return (
     <div>
+      {user.name}
+
       <h1>
         {msg} - Percent {percent}
       </h1>
@@ -79,6 +92,7 @@ export default function Home() {
 
       <Button onClick={upload}>Upload</Button>
       <Button onClick={handleCustomizationModalOpen}>handleCustomizationModalOpen</Button>
+      <Button onClick={sendNotification}>send notification</Button>
     </div>
   );
 }
